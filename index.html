@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biblia · Bible in Latin, Greek, Hebrew, Syriac &amp; English · Non-NT Canon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Cardo:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Syriac:wght@400;700&display=swap" rel="stylesheet">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch(e){}</script>
+<style>
+:root{--hd:#b3121f;--hd2:#8d0c17;--yl:#ffd60a;--body:#fff;--ink:#151515;--mute:#666;--line:#e2e2e2;--accent:#b3121f;
+--h1:#ffe680;--h2:#b9e8c9;--h3:#f7b9be;--h4:#c4d2fb;--rs:15px;color-scheme:light}
+:root[data-theme=dark]{--hd:#3d1a7a;--hd2:#290f56;--yl:#ffd60a;--body:#000;--ink:#fff;--mute:#b9aed4;--line:#2b2438;--accent:#c9a8ff;
+--h1:#6f5b00;--h2:#1f5c3c;--h3:#7b2b36;--h4:#39448f;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--body);color:var(--ink);font:16px/1.5 "Alegreya Sans",system-ui,sans-serif;display:grid;grid-template-rows:auto 1fr}
+button,input{font:inherit;color:inherit}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem;padding:.55rem 1rem;background:var(--hd);color:var(--yl);border-bottom:3px solid var(--yl)}
+.brand{font:700 1.4rem Cardo,serif;letter-spacing:.04em;color:var(--yl);margin-right:.3rem}
+.tabs{display:flex;gap:2px;background:var(--hd2);padding:3px;border-radius:8px}
+.tabs button{border:0;background:none;color:var(--yl);padding:.28rem .75rem;border-radius:6px;cursor:pointer;font-weight:500}
+.tabs button[aria-pressed=true]{background:var(--yl);color:var(--hd);font-weight:700}
+.tabs button[hidden]{display:none}
+.search{flex:1 1 200px;display:flex;gap:.4rem;max-width:480px}
+.search input{flex:1;min-width:0;padding:.38rem .7rem;border:1px solid rgba(255,214,10,.6);border-radius:8px;background:var(--hd2);color:var(--yl)}
+.search input::placeholder{color:rgba(255,214,10,.7)}
+.btn{border:1px solid var(--yl);background:transparent;color:var(--yl);border-radius:8px;padding:.33rem .7rem;cursor:pointer}
+.btn:hover{background:var(--yl);color:var(--hd)}
+#menu{display:none}
+.wrap{display:grid;grid-template-columns:250px 1fr;min-height:0}
+nav{overflow:auto;background:var(--hd);color:var(--yl);padding:.6rem .5rem 2rem;border-right:2px solid var(--yl)}
+nav h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;margin:1rem .5rem .3rem;cursor:pointer;user-select:none;opacity:.9}
+nav .b{display:block;width:100%;text-align:left;border:0;background:none;color:var(--yl);padding:.22rem .5rem;border-radius:6px;cursor:pointer}
+nav .b:hover{background:rgba(255,214,10,.18)}
+nav .b.on{background:var(--yl);color:var(--hd);font-weight:700}
+nav .b.off{opacity:.45}
+.chs{display:flex;flex-wrap:wrap;gap:3px;padding:.35rem .5rem .6rem}
+.chs button{min-width:2rem;border:1px solid rgba(255,214,10,.6);background:transparent;color:var(--yl);border-radius:6px;cursor:pointer;padding:.1rem .3rem}
+.chs button:hover{background:rgba(255,214,10,.2)}
+.chs button.on{background:var(--yl);color:var(--hd);border-color:var(--yl);font-weight:700}
+main{overflow:auto;background:var(--body);padding:1rem 1.4rem 6rem;scroll-behavior:smooth}
+.page{max-width:46rem;margin:0 auto}
+h1{font:700 1.8rem Cardo,serif;margin:.3rem 0 .1rem;color:var(--accent)}
+.sub{color:var(--mute);margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:3px double var(--line)}
+.ctitle{font:italic 1.05rem Cardo,serif;color:var(--mute);margin:-.3rem 0 .8rem}
+.txt{font-family:Cardo,"Noto Serif",serif;font-size:calc(var(--rs)*1.35);line-height:1.7}
+.txt[lang=syr]{font-family:"Noto Sans Syriac","Estrangela Edessa","Serto Jerusalem",Cardo,serif;font-size:calc(var(--rs)*1.45);line-height:2}
+.txt[lang=he]{font-family:"Noto Serif Hebrew","SBL Hebrew","Ezra SIL","Times New Roman",serif;font-size:calc(var(--rs)*1.45);line-height:2.1}
+.v{display:flex;gap:.7rem;padding:.15rem .4rem;border-radius:6px;cursor:pointer}
+.v:hover{background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.v>span:last-child{white-space:pre-line}
+.v .n{flex:none;width:1.8rem;text-align:right;font:500 .72em "Alegreya Sans",sans-serif;color:var(--accent);padding-top:.5em}
+.txt[dir=rtl] .v .n{text-align:center}.txt[dir=rtl] .res b{margin:0 0 0 .5rem}
+.v.sel{outline:2px solid var(--accent)}
+.v[data-h="1"]{background:var(--h1)}.v[data-h="2"]{background:var(--h2)}.v[data-h="3"]{background:var(--h3)}.v[data-h="4"]{background:var(--h4)}
+.v.flash{animation:fl 1.6s}
+@keyframes fl{from{outline:3px solid var(--accent)}to{outline:3px solid transparent}}
+.pn{display:flex;justify-content:space-between;margin:1.5rem 0}
+.pn .btn{border-color:var(--accent);color:var(--accent)}.pn .btn:hover{background:var(--accent);color:var(--body)}
+.note{padding:1rem;border:1px dashed var(--line);border-radius:10px;color:var(--mute)}
+.res{padding:.5rem .6rem;border-bottom:1px solid var(--line);cursor:pointer;border-radius:6px}
+.res:hover{background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.res b{color:var(--accent);margin-right:.5rem}
+mark{background:var(--h1);color:inherit;border-radius:3px;padding:0 1px}
+#bar{position:fixed;left:50%;bottom:1rem;transform:translateX(-50%);display:none;align-items:center;gap:.5rem;background:var(--hd);color:var(--yl);border:2px solid var(--yl);border-radius:12px;padding:.5rem .8rem;box-shadow:0 6px 24px #0006;z-index:5}
+#bar.show{display:flex}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--yl);cursor:pointer;padding:0}
+.sw[data-c="1"]{background:var(--h1)}.sw[data-c="2"]{background:var(--h2)}.sw[data-c="3"]{background:var(--h3)}.sw[data-c="4"]{background:var(--h4)}
+footer{margin-top:3rem;color:var(--mute);font-size:.85rem;border-top:1px solid var(--line);padding-top:1rem}
+footer a,.page a{color:var(--accent)}
+@media(max-width:760px){.wrap{grid-template-columns:1fr}nav{position:fixed;inset:0;z-index:4;display:none;border:0}nav.open{display:block}#menu{display:inline-block}main{padding:1rem}}
+</style>
+</head>
+<body>
+<header>
+ <span class="brand">Biblia</span>
+ <button class="btn" id="menu">Books</button>
+ <div class="tabs seg" role="group" aria-label="Collection">
+  <button data-c="bible" aria-pressed="true">Bible</button>
+  <button data-c="writings" aria-pressed="false">Non-NT Canon</button>
+ </div>
+ <div class="tabs" role="group" aria-label="Language">
+  <button data-l="la" aria-pressed="true">Latin</button>
+  <button data-l="grc" aria-pressed="false">Greek</button>
+  <button data-l="heb" aria-pressed="false">Hebrew</button>
+  <button data-l="syr" aria-pressed="false">Syriac</button>
+  <button data-l="en" aria-pressed="false">English</button>
+ </div>
+ <form class="search" id="sf"><input id="q" type="search" placeholder='Search words, or jump: "John 3:16"' aria-label="Search"><button class="btn">Go</button></form>
+ <button class="btn" id="hlb">Highlights</button>
+ <button class="btn" id="ab">About</button>
+ <button class="btn" id="th" aria-label="Switch day or night mode"></button>
+ <span><button class="btn" id="sm" aria-label="Smaller text">A−</button> <button class="btn" id="lg" aria-label="Larger text">A+</button></span>
+</header>
+<div class="wrap">
+ <nav id="nav" aria-label="Books"></nav>
+ <main id="main"><div class="page" id="page"></div></main>
+</div>
+<div id="bar"><span id="cnt"></span>
+ <button class="sw" data-c="1" aria-label="Gold"></button><button class="sw" data-c="2" aria-label="Green"></button>
+ <button class="sw" data-c="3" aria-label="Rose"></button><button class="sw" data-c="4" aria-label="Blue"></button>
+ <button class="btn" id="rm">Remove</button><button class="btn" id="cl">Done</button></div>
+<script>
+const $=s=>document.querySelector(s), esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NAMES={la:'Latin',grc:'Greek',heb:'Hebrew',syr:'Syriac',en:'English'};
+const LANGS={bible:['la','grc','heb','syr','en'],writings:['grc','en']};
+const attr=l=>l==='syr'?'lang="syr" dir="rtl"':l==='heb'?'lang="he" dir="rtl"':`lang="${l}"`;
+const closed=new Set(['Other Septuagint books','Other Syriac books']);
+let books=[],titles={},data={},S={canon:'bible',lang:'la',book:'genesis',ch:1},sel=new Set(),idx={};
+const last={bible:{lang:'la',book:'genesis',ch:1},writings:{lang:'grc',book:'1-clement',ch:1}};
+let HL={};try{HL=JSON.parse(localStorage.getItem('hl')||'{}')}catch(e){}
+const saveHL=()=>{try{localStorage.setItem('hl',JSON.stringify(HL))}catch(e){}};
+const hkey=(l,b,c,v)=>`${l}|${b}|${c}|${v}`, bk=id=>books.find(b=>b.id===id);
+const GAPS={la:{
+ '1-esdras':'The Latin Bible has this book as “3 Esdras” in the Clementine Vulgate appendix. No verified public-domain digital copy was found, so it is not included yet.',
+ '3-maccabees':'No Latin translation of 3 Maccabees was made in antiquity; it is not in the Vulgate or the Old Latin Bible.',
+ '4-maccabees':'The only ancient Latin version is the Passio Sanctorum Maccabaeorum, a free rewriting of the book. No public-domain digital text was found.',
+ 'odes':'The Odes are not a separate book in the Latin Bible. The Vulgate has these canticles inside their own books (Exodus 15, Deuteronomy 32, 1 Samuel 2, Isaiah 5 and 26, Jonah 2, Habakkuk 3, Isaiah 38, Daniel 3, Luke 1–2).',
+ 'psalms-of-solomon':'No Latin translation of the Psalms of Solomon is known to exist.',
+ 'prayer-of-manasseh':'The Clementine Vulgate prints this prayer in its appendix. No verified public-domain digital copy was found, so it is not included yet.'},
+ en:{'odes':'No public-domain English translation matching this Greek text has been added yet.','psalms-of-solomon':'No public-domain English translation matching this Greek text has been added yet.'}};
+function subtitle(){
+ const b=bk(S.book),nt=b.sec==='New Testament',w=b.canon==='writings',p=b.id==='apocalypse-of-peter',lx=['1-esdras','3-maccabees','4-maccabees','prayer-of-manasseh'].includes(b.id);
+ return {la:'Latin · Clementine Vulgate',
+  grc:'Greek · '+(w?(p?'reconstruction by the site owner':'Apostolic Fathers, K. Lake (Loeb), First1KGreek'):nt?'Robinson-Pierpont Byzantine text':b.id==='ecclesiastes'?'Brenton’s Greek Septuagint (Swete’s edition is missing this book in our source)':'Swete’s Septuagint'),
+  heb:'Hebrew · '+(nt?'Delitzsch’s translation':'Westminster Leningrad Codex'),
+  syr:'Syriac · '+(nt?'Peshitta, British and Foreign Bible Society 1905':'Peshitta, Leiden edition'),
+  en:'English · '+(w?(p?'translation by the site owner':'literal translation made for this site from the Greek'):lx?'Brenton’s Septuagint translation (updated spelling)':'Catholic Public Domain Version (CPDV)')}[S.lang];
+}
+async function load(l){
+ if(data[l])return data[l];
+ if(l==='syr'){const [a,b]=await Promise.all([fetch('data/syr.json').then(r=>r.json()),fetch('data/syr-ot.json').then(r=>r.json()).catch(()=>({}))]);data[l]={...b,...a}}
+ else data[l]=await (await fetch(`data/${l}.json`)).json();
+ return data[l];
+}
+async function go(l,b,c,v){
+ const bo=bk(b);if(!LANGS[bo.canon].includes(l))l=LANGS[bo.canon][0];
+ $('#page').innerHTML='<p class="note">Loading…</p>';
+ S={canon:bo.canon,lang:l,book:b,ch:c};closed.delete(bo.sec);sel.clear();last[bo.canon]={lang:l,book:b,ch:c};
+ await load(l);render(v);chrome();
+ history.replaceState(null,'',`#${l}/${b}/${c}`);$('#nav').classList.remove('open');
+}
+function chrome(){
+ document.querySelectorAll('.tabs button[data-l]').forEach(x=>{x.hidden=!LANGS[S.canon].includes(x.dataset.l);x.setAttribute('aria-pressed',x.dataset.l===S.lang)});
+ document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.c===S.canon));
+}
+function renderNav(){
+ let h='',sec='';
+ for(const b of books){
+  if(b.canon!==S.canon)continue;
+  if(b.sec!==sec){sec=b.sec;h+=`<h3 data-sec="${sec}">${closed.has(sec)?'▸':'▾'} ${sec}</h3>`}
+  if(closed.has(b.sec))continue;
+  const n=b[S.lang],on=b.id===S.book;
+  h+=`<button class="b ${on?'on':''} ${n?'':'off'}" data-b="${b.id}">${b.name}</button>`;
+  if(on&&n)h+='<div class="chs">'+Array.from({length:n},(_,i)=>`<button class="${i+1===S.ch?'on':''}" data-c="${i+1}">${i+1}</button>`).join('')+'</div>';
+ }
+ $('#nav').innerHTML=h;const on=$('#nav .b.on');if(on)on.scrollIntoView({block:'nearest'});
+}
+function render(vf){
+ const b=bk(S.book),chs=data[S.lang][S.book];renderNav();
+ let h=`<h1>${b.name} ${chs?S.ch:''}</h1><div class="sub">${subtitle()}</div>`;
+ const tt=chs&&(titles[S.book]||{})[S.ch];if(tt)h+=`<div class="ctitle">${esc(tt)}</div>`;
+ if(!chs)h+=`<p class="note">${b.name} is not available in the ${NAMES[S.lang]} text. ${(GAPS[S.lang]||{})[b.id]||'Try another language tab.'}</p>`;
+ else{
+  h+=`<div class="txt" ${attr(S.lang)}>`;
+  chs[S.ch-1].forEach((t,i)=>{if(!t)return;const v=i+1,c=HL[hkey(S.lang,S.book,S.ch,v)];
+   h+=`<div class="v" data-v="${v}" ${c?`data-h="${c}"`:''}><span class="n">${v}</span><span>${esc(t)}</span></div>`});
+  h+='</div><div class="pn"><button class="btn" id="pv">← Previous</button><button class="btn" id="nx">Next →</button></div>';
+ }
+ h+=`<footer>Sources and licenses: see <a href="#about" id="fa">About</a>. Texts are public domain or CC BY-SA 4.0; the Syriac Old Testament is CC BY-NC 4.0 (non-commercial use only).</footer>`;
+ $('#page').innerHTML=h;bar();
+ if(vf){const e=document.querySelector(`.v[data-v="${vf}"]`);if(e){e.scrollIntoView({block:'center'});e.classList.add('flash')}}else $('#main').scrollTop=0;
+}
+function step(d){
+ const L=S.lang,list=books.filter(b=>b.canon===S.canon&&b[L]);let i=list.findIndex(b=>b.id===S.book),c=S.ch+d;
+ if(i<0)return;
+ if(c<1){if(i===0)return;i--;c=list[i][L]}else if(c>list[i][L]){if(i===list.length-1)return;i++;c=1}
+ go(L,list[i].id,c);
+}
+/* ---- search ---- */
+const norm=s=>s.normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/ς/g,'σ').replace(/[ךםןףץ]/g,c=>'כמנפצ'['ךםןףץ'.indexOf(c)]).replace(/æ/g,'ae').replace(/œ/g,'oe').replace(/j/g,'i').replace(/v/g,'u');
+function nmap(s){let n='',m=[];for(let i=0;i<s.length;){const cp=s.codePointAt(i),ch=String.fromCodePoint(cp),x=norm(ch);for(const y of x){n+=y;m.push(i)}i+=ch.length}return{n,m}}
+async function buildIdx(l){
+ if(idx[l])return idx[l];const d=await load(l),a=[];
+ for(const b of books)(d[b.id]||[]).forEach((c,ci)=>c.forEach((t,vi)=>{if(t)a.push({b:b.id,k:b.canon,c:ci+1,v:vi+1,t,n:norm(t)})}));
+ return idx[l]=a;
+}
+const rxs=w=>new RegExp('(?<![\\p{L}])'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gu');
+function hi(t,terms){
+ const {n,m}=nmap(t),r=[];
+ for(const w of terms){for(const x of n.matchAll(rxs(w)))r.push([m[x.index],m[x.index+w.length-1]+1])}
+ r.sort((a,b)=>a[0]-b[0]);let o='',e=0;
+ for(const [s,f] of r){if(s<e)continue;o+=esc(t.slice(e,s))+'<mark>'+esc(t.slice(s,f))+'</mark>';e=f}
+ return o+esc(t.slice(e));
+}
+function parseRef(q){
+ const m=q.trim().toLowerCase().replace(/\./g,'').match(/^((?:[1-4]\s*)?[a-z][a-z: ]*?)\s*(\d+)(?:\s*[:,.]\s*(\d+))?$/);if(!m)return null;
+ const cl=z=>z.toLowerCase().replace(/[^a-z0-9]/g,''),k=cl(m[1]),inC=books.filter(x=>x.canon===S.canon),all=inC.concat(books.filter(x=>x.canon!==S.canon));
+ const b=all.find(x=>cl(x.name)===k||cl(x.id)===k)||all.find(x=>cl(x.name).startsWith(k));
+ return b?{b:b.id,c:+m[2],v:m[3]?+m[3]:0}:null;
+}
+async function search(q){
+ const ref=parseRef(q);
+ if(ref){const b=bk(ref.b),L=LANGS[b.canon].includes(S.lang)?S.lang:LANGS[b.canon][0];if(ref.c>=1&&ref.c<=Math.max(b[L],1))return go(S.lang,ref.b,ref.c,ref.v)}
+ const terms=norm(q).split(/\s+/).filter(Boolean);if(!terms.length)return;
+ $('#page').innerHTML='<p class="note">Searching…</p>';
+ const a=await buildIdx(S.lang),rx=terms.map(rxs),hits=a.filter(x=>x.k===S.canon&&rx.every(r=>{r.lastIndex=0;return r.test(x.n)}));
+ let h=`<h1>Search</h1><div class="sub">${hits.length} verse${hits.length==1?'':'s'} in ${NAMES[S.lang]} (${S.canon==='bible'?'Bible':'Non-NT Canon'}) for “${esc(q)}” (matches word beginnings; accents and case ignored)${hits.length>300?' · showing first 300':''}</div><div class="txt" ${attr(S.lang)}>`;
+ for(const x of hits.slice(0,300))h+=`<div class="res" data-b="${x.b}" data-c="${x.c}" data-v="${x.v}"><b>${bk(x.b).name} ${x.c}:${x.v}</b>${hi(x.t,terms)}</div>`;
+ $('#page').innerHTML=h+'</div>';$('#main').scrollTop=0;renderNav();
+}
+/* ---- about ---- */
+function showAbout(){
+ const R=[['Latin','Clementine Vulgate (1592/1598); digital text: Clementine Vulgate Project e-text','Public domain'],
+ ['Greek, Old Testament','Swete, <i>The Old Testament in Greek</i> (1887–1894), First1KGreek digital edition','CC BY-SA 4.0'],
+ ['Greek, New Testament','Robinson-Pierpont Byzantine Majority Text','Public domain'],
+ ['Hebrew, Old Testament','Westminster Leningrad Codex via the Open Scriptures Hebrew Bible (the Qere is shown for Ketiv/Qere)','Public domain'],
+ ['Hebrew, New Testament','Franz Delitzsch’s Hebrew translation (1877–1889) from the Greek, via eBible.org (unpointed)','Public domain'],
+ ['Syriac, Old Testament','Leiden Peshitta Institute text, electronic edition by the ETCBC, VU Amsterdam','CC BY-NC 4.0, non-commercial use only'],
+ ['Syriac, New Testament','Peshitta, British and Foreign Bible Society 1905, CrossWire module (courtesy of John Richards)','Public domain'],
+ ['Greek, Ecclesiastes','Lancelot Brenton’s Greek Septuagint (1851), via eBible.org (the Swete edition used for the rest of the Old Testament is missing this book in our source)','Public domain'],
+ ['English, Septuagint extras','Brenton’s English Septuagint (1851), updated spelling (Adam Boyd): 1 Esdras, 3 Maccabees, 4 Maccabees, Prayer of Manasseh. Verse numbers follow Brenton and can differ by one or two from the Greek','Public domain'],
+ ['English, Bible','Catholic Public Domain Version (CPDV), Ronald L. Conte Jr., 2009, translated from the Latin Vulgate (master text: sacredbible.org/catholic)','Public domain'],
+ ['Non-NT Canon, Greek','Kirsopp Lake, <i>The Apostolic Fathers</i> (Loeb, 1912/1917), First1KGreek digital edition: 1 Clement, seven letters of Ignatius, Polycarp, Martyrdom of Polycarp, Didache, Barnabas. Parts of Polycarp, <i>Philippians</i> survive only in Latin and are shown in Latin, labelled','CC BY-SA 4.0'],
+ ['Non-NT Canon, English','New literal translation of the twelve works above, made for this site by Claude (an AI model); not scholar-reviewed. Polycarp, <i>Philippians</i> 10–12, 14 translated from the Latin','CC BY-SA 4.0'],
+ ['Apocalypse of Peter','Greek reconstruction and English translation: original work of the site owner','Rights held by the site owner']];
+ $('#page').innerHTML='<h1>About &amp; sources</h1><div class="sub">Every text on this site, who produced it, and its license.</div><div class="txt" style="font-size:calc(var(--rs)*1.05);line-height:1.6">'+R.map(r=>`<p><b>${r[0]}.</b> ${r[1]}. <i>${r[2]}</i></p>`).join('')+'<p>Licenses: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Texts were reformatted for this site (chapters and verses, editorial marks removed). Highlights are stored only in your own browser.</p></div>';
+ $('#main').scrollTop=0;
+}
+/* ---- theme ---- */
+function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}$('#th').textContent=t==='dark'?'☀ Day':'☾ Night'}
+setTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
+/* ---- highlights ---- */
+function bar(){$('#bar').classList.toggle('show',sel.size>0);$('#cnt').textContent=sel.size+' selected'}
+async function showHL(){
+ const ks=Object.keys(HL);await Promise.all([...new Set(ks.map(k=>k.split('|')[0]))].map(load));
+ let h=`<h1>My highlights</h1><div class="sub">${ks.length} saved in this browser</div><div class="txt">`;
+ if(!ks.length)h+='<p class="note">Click a verse to select it, then pick a colour.</p>';
+ for(const k of ks){const [l,b,c,v]=k.split('|'),t=(data[l]&&data[l][b]&&data[l][b][c-1]&&data[l][b][c-1][v-1])||'';
+  h+=`<div class="res v" data-h="${HL[k]}" data-l="${l}" data-b="${b}" data-c="${c}" data-v="${v}"><b>${bk(b).name} ${c}:${v} (${l})</b>${esc(t)}</div>`}
+ $('#page').innerHTML=h+'</div>'+(ks.length?'<p><button class="btn" id="clr" style="border-color:var(--accent);color:var(--accent)">Clear all highlights</button></p>':'');
+}
+document.addEventListener('click',async e=>{
+ const t=e.target;
+ if(t.closest('#nav')){
+  const hs=t.closest('h3[data-sec]');if(hs){closed.has(hs.dataset.sec)?closed.delete(hs.dataset.sec):closed.add(hs.dataset.sec);renderNav();return}
+  const bb=t.closest('.b'),cc=t.closest('.chs button');
+  if(cc)go(S.lang,S.book,+cc.dataset.c);else if(bb)go(S.lang,bb.dataset.b,1);return}
+ const sg=t.closest('.seg button');if(sg){if(sg.dataset.c!==S.canon){const x=last[sg.dataset.c];go(x.lang,x.book,x.ch)}return}
+ const tab=t.closest('.tabs button[data-l]');if(tab){go(tab.dataset.l,S.book,Math.min(S.ch,Math.max(1,bk(S.book)[tab.dataset.l]||1)));return}
+ const v=t.closest('.v'),r=t.closest('.res');
+ if(r&&r.dataset.b){await go(r.dataset.l||S.lang,r.dataset.b,+r.dataset.c,+r.dataset.v);return}
+ if(v&&v.closest('.txt')){const k=v.dataset.v;sel.has(k)?sel.delete(k):sel.add(k);v.classList.toggle('sel');bar();return}
+ const sw=t.closest('.sw');
+ if(sw){sel.forEach(v=>{HL[hkey(S.lang,S.book,S.ch,v)]=sw.dataset.c});saveHL();sel.clear();render();return}
+ if(t.id==='rm'){sel.forEach(v=>delete HL[hkey(S.lang,S.book,S.ch,v)]);saveHL();sel.clear();render()}
+ if(t.id==='cl'){sel.clear();document.querySelectorAll('.v.sel').forEach(x=>x.classList.remove('sel'));bar()}
+ if(t.id==='pv')step(-1);if(t.id==='nx')step(1);
+ if(t.id==='hlb')await showHL();
+ if(t.id==='ab'||t.id==='fa'){e.preventDefault();showAbout()}
+ if(t.id==='clr'&&confirm('Remove all highlights?')){HL={};saveHL();showHL()}
+ if(t.id==='th')setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+ if(t.id==='menu')$('#nav').classList.toggle('open');
+ if(t.id==='sm'||t.id==='lg'){const r=document.documentElement.style,c=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rs'))||15;r.setProperty('--rs',Math.min(24,Math.max(11,c+(t.id==='lg'?1.5:-1.5)))+'px')}
+});
+$('#sf').addEventListener('submit',e=>{e.preventDefault();search($('#q').value)});
+function fromHash(){const m=location.hash.match(/^#(la|grc|heb|syr|en)\/([\w-]+)\/(\d+)/);if(m&&bk(m[2]))go(m[1],m[2],+m[3]);else go('la','genesis',1)}
+addEventListener('hashchange',()=>{const m=location.hash.match(/^#(la|grc|heb|syr|en)\/([\w-]+)\/(\d+)/);if(m&&bk(m[2])&&(m[1]!==S.lang||m[2]!==S.book||+m[3]!==S.ch))fromHash()});
+(async()=>{[books,titles]=await Promise.all([fetch('data/books.json').then(r=>r.json()),fetch('data/titles.json').then(r=>r.json()).catch(()=>({}))]);fromHash()})();
+</script>
+</body>
+</html>
