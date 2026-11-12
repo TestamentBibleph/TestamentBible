@@ -26,7 +26,11 @@ Opening `index.html` directly from your computer will not work (browsers block l
 
 ## How to use
 - **Bible / Non-NT Canon** switch (top left) and the **language tabs** keep you at the same book and chapter (a language that does not have the book says so).
-- **Search**: words (start of words; ignores accents, vowel points and capitals; several words = all must appear) inside the current collection and language, or a reference such as `John 3:16`, `1 cor 13`, `Ps 22`, `ignatius romans 4`, `didache 8`, `peter 5`; a reference to the other collection switches to it automatically.
+- **Search** has two modes in the same box:
+  - **Words**: type words to find verses (matches the start of words; ignores accents, vowel points and capitals; several words = all must appear), inside the current collection and language.
+  - **Passages**: type one or more references **separated by semicolons** and they appear together on one page, each with its own heading and an "open chapter" link. Any books can be mixed, in the Bible or the Non-NT Canon, for example `Genesis 1:1-3; Romans 8:28; Proverbs 3:5-6` or `1 Clement 5:1-4; Didache 8; Barnabas 19`.
+    Supported forms: a chapter (`Psalm 23`), a verse (`John 3:16`), verse ranges (`John 3:16-18`), several verses (`1 John 4:8,16`), chapter ranges (`Genesis 2-3`), ranges across chapters (`Genesis 1:26-2:3`), and a book name can be left out to repeat the previous one (`Gen 1:1; 2:4; Ex 3:14`). Common abbreviations work (`Jn`, `Rom`, `1 Cor`, `Ps`, `Ign Rom`, `Pol Phil`). A single chapter or verse still jumps straight to the chapter.
+    The language tabs re-display the whole list in another language, verses in a passage list can be highlighted like anywhere else, and the address bar holds a link to the list (`#p/...`) that you can bookmark or share.
 - **Highlighting**: click verses, pick a colour; saved in your own browser. **Highlights** lists them all.
 - **Day / Night** button, **A− / A+** text size, **About** page with every source and license; book sections in the left menu collapse.
 

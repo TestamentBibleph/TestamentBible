@@ -23,7 +23,7 @@ header{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem;padding:.5
 .tabs button{border:0;background:none;color:var(--yl);padding:.28rem .75rem;border-radius:6px;cursor:pointer;font-weight:500}
 .tabs button[aria-pressed=true]{background:var(--yl);color:var(--hd);font-weight:700}
 .tabs button[hidden]{display:none}
-.search{flex:1 1 200px;display:flex;gap:.4rem;max-width:480px}
+.search{flex:1 1 260px;display:flex;gap:.4rem;max-width:620px}
 .search input{flex:1;min-width:0;padding:.38rem .7rem;border:1px solid rgba(255,214,10,.6);border-radius:8px;background:var(--hd2);color:var(--yl)}
 .search input::placeholder{color:rgba(255,214,10,.7)}
 .btn{border:1px solid var(--yl);background:transparent;color:var(--yl);border-radius:8px;padding:.33rem .7rem;cursor:pointer}
@@ -53,6 +53,7 @@ h1{font:700 1.8rem Cardo,serif;margin:.3rem 0 .1rem;color:var(--accent)}
 .v>span:last-child{white-space:pre-line}
 .v .n{flex:none;width:1.8rem;text-align:right;font:500 .72em "Alegreya Sans",sans-serif;color:var(--accent);padding-top:.5em}
 .txt[dir=rtl] .v .n{text-align:center}.txt[dir=rtl] .res b{margin:0 0 0 .5rem}
+.pg{margin-bottom:.9rem}.ph{font:700 1.2rem Cardo,serif;color:var(--accent);margin:1.4rem 0 .3rem;display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}.ph a{font:500 .8rem "Alegreya Sans",sans-serif}.v .n.l{width:3.2rem}
 .v.sel{outline:2px solid var(--accent)}
 .v[data-h="1"]{background:var(--h1)}.v[data-h="2"]{background:var(--h2)}.v[data-h="3"]{background:var(--h3)}.v[data-h="4"]{background:var(--h4)}
 .v.flash{animation:fl 1.6s}
@@ -88,7 +89,7 @@ footer a,.page a{color:var(--accent)}
   <button data-l="syr" aria-pressed="false">Syriac</button>
   <button data-l="en" aria-pressed="false">English</button>
  </div>
- <form class="search" id="sf"><input id="q" type="search" placeholder='Search words, or jump: "John 3:16"' aria-label="Search"><button class="btn">Go</button></form>
+ <form class="search" id="sf"><input id="q" type="search" placeholder='Words, or passages: Gen 1:1-3; Rom 8:28; Prov 3:5-6' title='Type words to search, or one or more passages separated by semicolons. Ranges work: John 3:16-18, Gen 1:26-2:3, Ps 23; John 3:16,18' aria-label="Search"><button class="btn">Go</button></form>
  <button class="btn" id="hlb">Highlights</button>
  <button class="btn" id="ab">About</button>
  <button class="btn" id="th" aria-label="Switch day or night mode"></button>
@@ -108,7 +109,7 @@ const NAMES={la:'Latin',grc:'Greek',heb:'Hebrew',syr:'Syriac',en:'English'};
 const LANGS={bible:['la','grc','heb','syr','en'],writings:['grc','en']};
 const attr=l=>l==='syr'?'lang="syr" dir="rtl"':l==='heb'?'lang="he" dir="rtl"':`lang="${l}"`;
 const closed=new Set(['Other Septuagint books','Other Syriac books']);
-let books=[],titles={},data={},S={canon:'bible',lang:'la',book:'genesis',ch:1},sel=new Set(),idx={};
+let books=[],titles={},data={},S={canon:'bible',lang:'la',book:'genesis',ch:1},sel=new Set(),idx={},lastRefs=null;
 const last={bible:{lang:'la',book:'genesis',ch:1},writings:{lang:'grc',book:'1-clement',ch:1}};
 let HL={};try{HL=JSON.parse(localStorage.getItem('hl')||'{}')}catch(e){}
 const saveHL=()=>{try{localStorage.setItem('hl',JSON.stringify(HL))}catch(e){}};
@@ -136,9 +137,9 @@ async function load(l){
  return data[l];
 }
 async function go(l,b,c,v){
- const bo=bk(b);if(!LANGS[bo.canon].includes(l))l=LANGS[bo.canon][0];
+ const bo=bk(b);if(!bo)return;if(!LANGS[bo.canon].includes(l))l=LANGS[bo.canon][0];
  $('#page').innerHTML='<p class="note">Loading…</p>';
- S={canon:bo.canon,lang:l,book:b,ch:c};closed.delete(bo.sec);sel.clear();last[bo.canon]={lang:l,book:b,ch:c};
+ S={canon:bo.canon,lang:l,book:b,ch:c,view:'chapter'};closed.delete(bo.sec);sel.clear();last[bo.canon]={lang:l,book:b,ch:c};
  await load(l);render(v);chrome();
  history.replaceState(null,'',`#${l}/${b}/${c}`);$('#nav').classList.remove('open');
 }
@@ -166,7 +167,7 @@ function render(vf){
  else{
   h+=`<div class="txt" ${attr(S.lang)}>`;
   chs[S.ch-1].forEach((t,i)=>{if(!t)return;const v=i+1,c=HL[hkey(S.lang,S.book,S.ch,v)];
-   h+=`<div class="v" data-v="${v}" ${c?`data-h="${c}"`:''}><span class="n">${v}</span><span>${esc(t)}</span></div>`});
+   h+=`<div class="v" data-b="${S.book}" data-c="${S.ch}" data-v="${v}" ${c?`data-h="${c}"`:''}><span class="n">${v}</span><span>${esc(t)}</span></div>`});
   h+='</div><div class="pn"><button class="btn" id="pv">← Previous</button><button class="btn" id="nx">Next →</button></div>';
  }
  h+=`<footer>Sources and licenses: see <a href="#about" id="fa">About</a>. Texts are public domain or CC BY-SA 4.0; the Syriac Old Testament is CC BY-NC 4.0 (non-commercial use only).</footer>`;
@@ -195,16 +196,85 @@ function hi(t,terms){
  for(const [s,f] of r){if(s<e)continue;o+=esc(t.slice(e,s))+'<mark>'+esc(t.slice(s,f))+'</mark>';e=f}
  return o+esc(t.slice(e));
 }
-function parseRef(q){
- const m=q.trim().toLowerCase().replace(/\./g,'').match(/^((?:[1-4]\s*)?[a-z][a-z: ]*?)\s*(\d+)(?:\s*[:,.]\s*(\d+))?$/);if(!m)return null;
- const cl=z=>z.toLowerCase().replace(/[^a-z0-9]/g,''),k=cl(m[1]),inC=books.filter(x=>x.canon===S.canon),all=inC.concat(books.filter(x=>x.canon!==S.canon));
- const b=all.find(x=>cl(x.name)===k||cl(x.id)===k)||all.find(x=>cl(x.name).startsWith(k));
- return b?{b:b.id,c:+m[2],v:m[3]?+m[3]:0}:null;
+const ALIAS={jn:'john',mt:'matthew',mk:'mark',lk:'luke',gn:'genesis',ex:'exodus',lv:'leviticus',nm:'numbers',dt:'deuteronomy',jos:'joshua',jgs:'judges',ps:'psalms',pss:'psalms',prv:'proverbs',qoh:'ecclesiastes',sg:'song-of-songs',song:'song-of-songs',is:'isaiah',jer:'jeremiah',ez:'ezekiel',dn:'daniel',rm:'romans',rv:'revelation',rev:'revelation','1jn':'1-john','2jn':'2-john','3jn':'3-john','1pt':'1-peter','2pt':'2-peter','1cor':'1-corinthians','2cor':'2-corinthians','1thes':'1-thessalonians','2thes':'2-thessalonians','1tim':'1-timothy','2tim':'2-timothy','1sam':'1-samuel','2sam':'2-samuel','1kgs':'1-kings','2kgs':'2-kings','1chr':'1-chronicles','2chr':'2-chronicles','1macc':'1-maccabees','2macc':'2-maccabees','3macc':'3-maccabees','4macc':'4-maccabees','1clem':'1-clement','didache':'didache',igneph:'ignatius-ephesians',ignmagn:'ignatius-magnesians',ignmag:'ignatius-magnesians',igntrall:'ignatius-trallians',igntral:'ignatius-trallians',ignrom:'ignatius-romans',ignphld:'ignatius-philadelphians',ignphil:'ignatius-philadelphians',ignsmyrn:'ignatius-smyrnaeans',ignsm:'ignatius-smyrnaeans',ignpol:'ignatius-polycarp',polphil:'polycarp-philippians',polyphil:'polycarp-philippians',martpol:'martyrdom-of-polycarp',mpol:'martyrdom-of-polycarp','barn':'barnabas','apocpeter':'apocalypse-of-peter','revpeter':'apocalypse-of-peter'};
+const cl=z=>z.toLowerCase().replace(/[^a-z0-9]/g,'');
+function findBook(name){
+ const k=cl(name),a=ALIAS[k]&&bk(ALIAS[k]);if(a)return a;
+ const all=books.filter(x=>x.canon===S.canon).concat(books.filter(x=>x.canon!==S.canon));
+ return all.find(x=>cl(x.name)===k||cl(x.id)===k)||all.find(x=>cl(x.name).startsWith(k))||null;
+}
+function parseLoc(s){
+ s=s.trim();let m;
+ if(m=s.match(/^(\d+)$/))return[{c1:+m[1],v1:null,c2:+m[1],v2:null}];
+ if(m=s.match(/^(\d+)\s*-\s*(\d+)$/))return[{c1:+m[1],v1:null,c2:+m[2],v2:null}];
+ m=s.match(/^(\d+)\s*[:.]\s*(.+)$/);if(!m)return null;
+ let c=+m[1];const out=[];
+ for(const part of m[2].split(',')){
+  const p=part.trim();let k;
+  if(k=p.match(/^(\d+)\s*:\s*(\d+)(?:\s*-\s*(?:(\d+)\s*:\s*)?(\d+))?$/)){c=+k[1];const v1=+k[2];out.push(k[4]==null?{c1:c,v1,c2:c,v2:v1}:k[3]?{c1:c,v1,c2:+k[3],v2:+k[4]}:{c1:c,v1,c2:c,v2:+k[4]})}
+  else if(k=p.match(/^(\d+)(?:\s*-\s*(?:(\d+)\s*:\s*)?(\d+))?$/)){const v1=+k[1];out.push(k[3]==null?{c1:c,v1,c2:c,v2:v1}:k[2]?{c1:c,v1,c2:+k[2],v2:+k[3]}:{c1:c,v1,c2:c,v2:+k[3]})}
+  else return null;
+ }
+ return out;
+}
+function parseRefs(q){
+ const segs=q.replace(/[–—]/g,'-').split(/[;\n]+/).map(x=>x.trim()).filter(Boolean),items=[],bad=[];let cur=null;
+ for(const sg of segs){
+  let name=null,loc=sg;const m=sg.match(/^((?:[1-4]\s*)?[A-Za-z][A-Za-z:.' ]*?)\s*(\d.*)$/);
+  if(m){name=m[1];loc=m[2]}
+  let b=cur;if(name){b=findBook(name.replace(/\./g,''));if(!b){bad.push(sg);continue}cur=b}
+  if(!b){bad.push(sg);continue}
+  const rs=parseLoc(loc);if(!rs){bad.push(sg);continue}
+  rs.forEach(r=>items.push({b,r}));
+ }
+ return items.length?{items,bad,q}:null;
+}
+function plabel(b,r){
+ const n=b.name;
+ if(r.v1==null)return r.c1===r.c2?`${n} ${r.c1}`:`${n} ${r.c1}–${r.c2}`;
+ if(r.c1===r.c2)return r.v1===r.v2?`${n} ${r.c1}:${r.v1}`:`${n} ${r.c1}:${r.v1}–${r.v2}`;
+ return `${n} ${r.c1}:${r.v1}–${r.c2}:${r.v2}`;
+}
+function collect(b,r,L){
+ const chs=(data[L]||{})[b.id];if(!chs)return{err:`${b.name} is not available in the ${NAMES[L]} text.`};
+ if(r.c1<1||r.c2>chs.length)return{err:`${b.name} has ${chs.length} chapter${chs.length==1?'':'s'} in the ${NAMES[L]} text.`};
+ const out=[];
+ for(let c=r.c1;c<=r.c2;c++){const ch=chs[c-1],a=(c===r.c1&&r.v1!=null)?r.v1:1,z=(c===r.c2&&r.v2!=null)?r.v2:ch.length;
+  for(let v=a;v<=z;v++){const t=ch[v-1];if(t)out.push({c,v,t})}}
+ return{verses:out};
+}
+async function showPassages(P){
+ lastRefs=P;sel.clear();
+ S.canon=P.items[0].b.canon;if(!LANGS[S.canon].includes(S.lang))S.lang=LANGS[S.canon][0];
+ S.view='passages';const L=S.lang;
+ await load(L);
+ let h=`<h1>Passages</h1><div class="sub">${P.items.length} passage${P.items.length==1?'':'s'} · ${NAMES[L]} · click verses to highlight them</div>`;
+ for(const {b,r} of P.items){
+  h+=`<section class="pg"><h2 class="ph">${esc(plabel(b,r))} <a class="open" href="#${L}/${b.id}/${r.c1}" data-b="${b.id}" data-c="${r.c1}" data-v="${r.v1||0}">open chapter ↗</a></h2>`;
+  if(!LANGS[b.canon].includes(L))h+=`<p class="note">${b.name} is part of the ${b.canon==='bible'?'Bible':'Non-NT Canon'}, which has no ${NAMES[L]} text. Choose another language tab.</p>`;
+  else{
+   const x=collect(b,r,L);
+   if(x.err)h+=`<p class="note">${esc(x.err)}</p>`;
+   else if(!x.verses.length)h+='<p class="note">No verses found for this reference.</p>';
+   else{const long=r.c1!==r.c2;h+=`<div class="txt" ${attr(L)}>`+x.verses.map(({c,v,t})=>{const hc=HL[hkey(L,b.id,c,v)];return `<div class="v" data-b="${b.id}" data-c="${c}" data-v="${v}" ${hc?`data-h="${hc}"`:''}><span class="n${long?' l':''}">${long?c+':'+v:v}</span><span>${esc(t)}</span></div>`}).join('')+'</div>'}
+  }
+  h+='</section>';
+ }
+ if(P.bad.length)h+=`<p class="note">Not understood: ${P.bad.map(x=>'“'+esc(x)+'”').join(', ')}. Use a book name and chapter, for example “Romans 8:28”.</p>`;
+ $('#page').innerHTML=h;$('#main').scrollTop=0;renderNav();chrome();bar();
+ history.replaceState(null,'','#p/'+L+'/'+encodeURIComponent(P.q));
 }
 async function search(q){
- const ref=parseRef(q);
- if(ref){const b=bk(ref.b),L=LANGS[b.canon].includes(S.lang)?S.lang:LANGS[b.canon][0];if(ref.c>=1&&ref.c<=Math.max(b[L],1))return go(S.lang,ref.b,ref.c,ref.v)}
- const terms=norm(q).split(/\s+/).filter(Boolean);if(!terms.length)return;
+ const P=parseRefs(q);
+ if(P){
+  const one=P.items.length===1&&!P.bad.length,r=P.items[0].r,b=P.items[0].b;
+  if(one&&r.c1===r.c2&&(r.v1==null||r.v1===r.v2)){
+   const L=LANGS[b.canon].includes(S.lang)?S.lang:LANGS[b.canon][0];
+   if(r.c1>=1&&r.c1<=Math.max(b[L],1))return go(S.lang,b.id,r.c1,r.v1||0);
+  }
+  return showPassages(P);
+ }
+ const terms=norm(q).replace(/;/g,' ').split(/\s+/).filter(Boolean);if(!terms.length)return;S.view='other';
  $('#page').innerHTML='<p class="note">Searching…</p>';
  const a=await buildIdx(S.lang),rx=terms.map(rxs),hits=a.filter(x=>x.k===S.canon&&rx.every(r=>{r.lastIndex=0;return r.test(x.n)}));
  let h=`<h1>Search</h1><div class="sub">${hits.length} verse${hits.length==1?'':'s'} in ${NAMES[S.lang]} (${S.canon==='bible'?'Bible':'Non-NT Canon'}) for “${esc(q)}” (matches word beginnings; accents and case ignored)${hits.length>300?' · showing first 300':''}</div><div class="txt" ${attr(S.lang)}>`;
@@ -212,7 +282,7 @@ async function search(q){
  $('#page').innerHTML=h+'</div>';$('#main').scrollTop=0;renderNav();
 }
 /* ---- about ---- */
-function showAbout(){
+function showAbout(){S.view='other';
  const R=[['Latin','Clementine Vulgate (1592/1598); digital text: Clementine Vulgate Project e-text','Public domain'],
  ['Greek, Old Testament','Swete, <i>The Old Testament in Greek</i> (1887–1894), First1KGreek digital edition','CC BY-SA 4.0'],
  ['Greek, New Testament','Robinson-Pierpont Byzantine Majority Text','Public domain'],
@@ -234,7 +304,7 @@ function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.s
 setTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
 /* ---- highlights ---- */
 function bar(){$('#bar').classList.toggle('show',sel.size>0);$('#cnt').textContent=sel.size+' selected'}
-async function showHL(){
+async function showHL(){S.view='other';
  const ks=Object.keys(HL);await Promise.all([...new Set(ks.map(k=>k.split('|')[0]))].map(load));
  let h=`<h1>My highlights</h1><div class="sub">${ks.length} saved in this browser</div><div class="txt">`;
  if(!ks.length)h+='<p class="note">Click a verse to select it, then pick a colour.</p>';
@@ -242,20 +312,23 @@ async function showHL(){
   h+=`<div class="res v" data-h="${HL[k]}" data-l="${l}" data-b="${b}" data-c="${c}" data-v="${v}"><b>${bk(b).name} ${c}:${v} (${l})</b>${esc(t)}</div>`}
  $('#page').innerHTML=h+'</div>'+(ks.length?'<p><button class="btn" id="clr" style="border-color:var(--accent);color:var(--accent)">Clear all highlights</button></p>':'');
 }
+const redraw=()=>S.view==='passages'?showPassages(lastRefs):render();
 document.addEventListener('click',async e=>{
  const t=e.target;
  if(t.closest('#nav')){
   const hs=t.closest('h3[data-sec]');if(hs){closed.has(hs.dataset.sec)?closed.delete(hs.dataset.sec):closed.add(hs.dataset.sec);renderNav();return}
   const bb=t.closest('.b'),cc=t.closest('.chs button');
   if(cc)go(S.lang,S.book,+cc.dataset.c);else if(bb)go(S.lang,bb.dataset.b,1);return}
+ const op=t.closest('a.open');if(op){e.preventDefault();await go(S.lang,op.dataset.b,+op.dataset.c,+op.dataset.v);return}
  const sg=t.closest('.seg button');if(sg){if(sg.dataset.c!==S.canon){const x=last[sg.dataset.c];go(x.lang,x.book,x.ch)}return}
- const tab=t.closest('.tabs button[data-l]');if(tab){go(tab.dataset.l,S.book,Math.min(S.ch,Math.max(1,bk(S.book)[tab.dataset.l]||1)));return}
+ const tab=t.closest('.tabs button[data-l]');if(tab&&S.view==='passages'){S.lang=tab.dataset.l;await showPassages(lastRefs);return}
+ if(tab){go(tab.dataset.l,S.book,Math.min(S.ch,Math.max(1,bk(S.book)[tab.dataset.l]||1)));return}
  const v=t.closest('.v'),r=t.closest('.res');
  if(r&&r.dataset.b){await go(r.dataset.l||S.lang,r.dataset.b,+r.dataset.c,+r.dataset.v);return}
- if(v&&v.closest('.txt')){const k=v.dataset.v;sel.has(k)?sel.delete(k):sel.add(k);v.classList.toggle('sel');bar();return}
+ if(v&&v.closest('.txt')){const k=v.dataset.b+'|'+v.dataset.c+'|'+v.dataset.v;sel.has(k)?sel.delete(k):sel.add(k);v.classList.toggle('sel');bar();return}
  const sw=t.closest('.sw');
- if(sw){sel.forEach(v=>{HL[hkey(S.lang,S.book,S.ch,v)]=sw.dataset.c});saveHL();sel.clear();render();return}
- if(t.id==='rm'){sel.forEach(v=>delete HL[hkey(S.lang,S.book,S.ch,v)]);saveHL();sel.clear();render()}
+ if(sw){sel.forEach(k=>{const [b,c,v]=k.split('|');HL[hkey(S.lang,b,c,v)]=sw.dataset.c});saveHL();sel.clear();redraw();return}
+ if(t.id==='rm'){sel.forEach(k=>{const [b,c,v]=k.split('|');delete HL[hkey(S.lang,b,c,v)]});saveHL();sel.clear();redraw()}
  if(t.id==='cl'){sel.clear();document.querySelectorAll('.v.sel').forEach(x=>x.classList.remove('sel'));bar()}
  if(t.id==='pv')step(-1);if(t.id==='nx')step(1);
  if(t.id==='hlb')await showHL();
@@ -266,8 +339,13 @@ document.addEventListener('click',async e=>{
  if(t.id==='sm'||t.id==='lg'){const r=document.documentElement.style,c=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rs'))||15;r.setProperty('--rs',Math.min(24,Math.max(11,c+(t.id==='lg'?1.5:-1.5)))+'px')}
 });
 $('#sf').addEventListener('submit',e=>{e.preventDefault();search($('#q').value)});
-function fromHash(){const m=location.hash.match(/^#(la|grc|heb|syr|en)\/([\w-]+)\/(\d+)/);if(m&&bk(m[2]))go(m[1],m[2],+m[3]);else go('la','genesis',1)}
-addEventListener('hashchange',()=>{const m=location.hash.match(/^#(la|grc|heb|syr|en)\/([\w-]+)\/(\d+)/);if(m&&bk(m[2])&&(m[1]!==S.lang||m[2]!==S.book||+m[3]!==S.ch))fromHash()});
+async function fromHash(){
+ const pm=location.hash.match(/^#p\/(la|grc|heb|syr|en)\/(.+)$/);
+ if(pm){let q='';try{q=decodeURIComponent(pm[2])}catch(e){}const P=parseRefs(q);if(P){S.lang=pm[1];return showPassages(P)}}
+ oldFromHash()}
+function oldFromHash(){const m=location.hash.match(/^#(la|grc|heb|syr|en)\/([\w-]+)\/(\d+)/);if(m&&bk(m[2]))go(m[1],m[2],+m[3]);else go('la','genesis',1)}
+addEventListener('hashchange',()=>{if(!books.length)return;if(location.hash.startsWith('#p/')){let q='';try{q=decodeURIComponent(location.hash.split('/').slice(2).join('/'))}catch(e){}if(!lastRefs||lastRefs.q!==q)fromHash();return}
+ const m=location.hash.match(/^#(la|grc|heb|syr|en)\/([\w-]+)\/(\d+)/);if(m&&bk(m[2])&&(m[1]!==S.lang||m[2]!==S.book||+m[3]!==S.ch))fromHash()});
 (async()=>{[books,titles]=await Promise.all([fetch('data/books.json').then(r=>r.json()),fetch('data/titles.json').then(r=>r.json()).catch(()=>({}))]);fromHash()})();
 </script>
 </body>
