@@ -26,4 +26,6 @@ As derivatives, **`data/grc.json` is released under CC BY-SA 4.0** (it also cont
 
 **Apocalypse of Peter** (`data/grc.json` and `data/en.json`, book id `apocalypse-of-peter`, and `data/titles.json`): the Greek reconstruction and the English translation are original work of the site owner, included as supplied. The owner decides the license of this work (it is the owner's own text and is not covered by the CC BY-SA statements above, although it sits in the same data files). Replace this paragraph with your chosen license or copyright notice.
 
+**Syriac fonts** (`fonts/`): Noto Sans Syriac, Noto Sans Syriac Western and Noto Sans Syriac Eastern, Copyright 2022 The Noto Project Authors (github.com/notofonts/syriac), SIL Open Font License 1.1 (`fonts/OFL.txt`). Converted to WOFF2 without other changes.
+
 The website code (`index.html`) is free for you to use and modify.

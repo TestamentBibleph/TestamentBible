@@ -31,6 +31,7 @@ Opening `index.html` directly from your computer will not work (browsers block l
   - **Passages**: type one or more references **separated by semicolons** and they appear together on one page, each with its own heading and an "open chapter" link. Any books can be mixed, in the Bible or the Non-NT Canon, for example `Genesis 1:1-3; Romans 8:28; Proverbs 3:5-6` or `1 Clement 5:1-4; Didache 8; Barnabas 19`.
     Supported forms: a chapter (`Psalm 23`), a verse (`John 3:16`), verse ranges (`John 3:16-18`), several verses (`1 John 4:8,16`), chapter ranges (`Genesis 2-3`), ranges across chapters (`Genesis 1:26-2:3`), and a book name can be left out to repeat the previous one (`Gen 1:1; 2:4; Ex 3:14`). Common abbreviations work (`Jn`, `Rom`, `1 Cor`, `Ps`, `Ign Rom`, `Pol Phil`). A single chapter or verse still jumps straight to the chapter.
     The language tabs re-display the whole list in another language, verses in a passage list can be highlighted like anywhere else, and the address bar holds a link to the list (`#p/...`) that you can bookmark or share.
+- **Syriac scripts**: on the Syriac tab (and only there) a three-way switch appears in the top bar: **Estrangela** (the classical script, default), **Serto** (Western Syriac / Suryoyo) and **Madnḥaya** (Eastern Syriac). It changes only the letter style, not the text, applies to chapters, passage lists and search results, and is remembered in your browser. The fonts are bundled in the `fonts` folder.
 - **Highlighting**: click verses, pick a colour; saved in your own browser. **Highlights** lists them all.
 - **Day / Night** button, **A− / A+** text size, **About** page with every source and license; book sections in the left menu collapse.
 
@@ -44,6 +45,9 @@ Edit the first lines of the `<style>` block in `index.html` (`--hd`, `--yl`, `--
 Conventions: *theos* God, *kyrios* Lord, *ekklesia* church, *episkopos* bishop, *presbyteros* presbyter, *diakonos* deacon, *pais* child, *martys/martyrion* martyr/martyrdom, *adelphoi* brothers; square brackets mark uncertain or lost text and the translator's flags (`[text uncertain]`, `[From the Latin]`, `[the Greek has the negative]`).
 **Polycarp, Philippians:** chapters 10-12, the end of 13.2 and chapter 14 survive only in Latin. The Greek tab shows the Latin (labelled) and the English is translated from it.
 **Not scholar-reviewed:** treat it as a reading aid and check important passages against a published translation (e.g. Lake's Loeb volumes, Lightfoot).
+
+## Syriac scripts
+Estrangela, Serto and Madnḥaya are three styles of the same Unicode Syriac letters, so the site stores the text once and switches the font (`fonts/SyrEstrangela.woff2`, `SyrSerto.woff2`, `SyrMadnhaya.woff2`, the Noto Sans Syriac family, SIL Open Font License; `fonts/OFL.txt`). Because the text is consonantal (with plural dots), no vowel-point conversion between the Western and Eastern systems is needed. If a future Syriac source carries vowel points, the Western and Eastern vowel systems are not interchangeable and would need separate handling.
 
 ## Data format
 `data/la.json`, `grc.json`, `heb.json`, `syr.json` (Syriac NT), `syr-ot.json` (Syriac OT), `en.json`: `{ "book-id": [ [verse1, verse2, ...], ...chapters ] }`. `data/books.json` lists the books (`canon`: `bible` or `writings`) with chapter counts per language; `data/titles.json` holds optional chapter titles (Apocalypse of Peter). Empty strings are verses absent from that edition and are not shown. A language's file can be removed to drop it (remove its tab too).

@@ -6,9 +6,15 @@
 <title>Biblia · Bible in Latin, Greek, Hebrew, Syriac &amp; English · Non-NT Canon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Cardo:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Hebrew:wght@400;700&family=Noto+Sans+Syriac:wght@400;700&display=swap" rel="stylesheet">
-<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch(e){}</script>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Cardo:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Hebrew:wght@400;700&display=swap" rel="stylesheet">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.syr=localStorage.getItem('syrscript')||'estrangela'}catch(e){}</script>
 <style>
+@font-face{font-family:"SyrEstrangela";src:url(fonts/SyrEstrangela.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"SyrSerto";src:url(fonts/SyrSerto.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"SyrMadnhaya";src:url(fonts/SyrMadnhaya.woff2) format("woff2");font-display:swap}
+:root{--syr:"SyrEstrangela";--syrsize:1.45}
+:root[data-syr=serto]{--syr:"SyrSerto";--syrsize:1.6}
+:root[data-syr=madnhaya]{--syr:"SyrMadnhaya";--syrsize:1.5}
 :root{--hd:#b3121f;--hd2:#8d0c17;--yl:#ffd60a;--body:#fff;--ink:#151515;--mute:#666;--line:#e2e2e2;--accent:#b3121f;
 --h1:#ffe680;--h2:#b9e8c9;--h3:#f7b9be;--h4:#c4d2fb;--rs:15px;color-scheme:light}
 :root[data-theme=dark]{--hd:#3d1a7a;--hd2:#290f56;--yl:#ffd60a;--body:#000;--ink:#fff;--mute:#b9aed4;--line:#2b2438;--accent:#c9a8ff;
@@ -46,7 +52,8 @@ h1{font:700 1.8rem Cardo,serif;margin:.3rem 0 .1rem;color:var(--accent)}
 .sub{color:var(--mute);margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:3px double var(--line)}
 .ctitle{font:italic 1.05rem Cardo,serif;color:var(--mute);margin:-.3rem 0 .8rem}
 .txt{font-family:Cardo,"Noto Serif",serif;font-size:calc(var(--rs)*1.35);line-height:1.7}
-.txt[lang=syr]{font-family:"Noto Sans Syriac","Estrangela Edessa","Serto Jerusalem",Cardo,serif;font-size:calc(var(--rs)*1.45);line-height:2}
+.txt[lang=syr]{font-family:var(--syr),"Estrangela Edessa","Serto Jerusalem",Cardo,serif;font-size:calc(var(--rs)*var(--syrsize));line-height:2}
+#scr[hidden]{display:none}
 .txt[lang=he]{font-family:"Noto Serif Hebrew","SBL Hebrew","Ezra SIL","Times New Roman",serif;font-size:calc(var(--rs)*1.45);line-height:2.1}
 .v{display:flex;gap:.7rem;padding:.15rem .4rem;border-radius:6px;cursor:pointer}
 .v:hover{background:color-mix(in srgb,var(--accent) 9%,transparent)}
@@ -88,6 +95,11 @@ footer a,.page a{color:var(--accent)}
   <button data-l="heb" aria-pressed="false">Hebrew</button>
   <button data-l="syr" aria-pressed="false">Syriac</button>
   <button data-l="en" aria-pressed="false">English</button>
+ </div>
+ <div class="tabs" id="scr" role="group" aria-label="Syriac script" hidden>
+  <button data-s="estrangela" aria-pressed="true" title="Estrangela, the classical script">Estrangela</button>
+  <button data-s="serto" aria-pressed="false" title="Serto (Western Syriac, Suryoyo), used by the Syriac Orthodox and Maronite churches">Serto</button>
+  <button data-s="madnhaya" aria-pressed="false" title="Madnḥaya (Eastern Syriac), used by the Church of the East and Chaldean churches">Madnḥaya</button>
  </div>
  <form class="search" id="sf"><input id="q" type="search" placeholder='Words, or passages: Gen 1:1-3; Rom 8:28; Prov 3:5-6' title='Type words to search, or one or more passages separated by semicolons. Ranges work: John 3:16-18, Gen 1:26-2:3, Ps 23; John 3:16,18' aria-label="Search"><button class="btn">Go</button></form>
  <button class="btn" id="hlb">Highlights</button>
@@ -144,6 +156,7 @@ async function go(l,b,c,v){
  history.replaceState(null,'',`#${l}/${b}/${c}`);$('#nav').classList.remove('open');
 }
 function chrome(){
+ $('#scr').hidden=S.lang!=='syr';
  document.querySelectorAll('.tabs button[data-l]').forEach(x=>{x.hidden=!LANGS[S.canon].includes(x.dataset.l);x.setAttribute('aria-pressed',x.dataset.l===S.lang)});
  document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.c===S.canon));
 }
@@ -290,6 +303,7 @@ function showAbout(){S.view='other';
  ['Hebrew, New Testament','Franz Delitzsch’s Hebrew translation (1877–1889) from the Greek, via eBible.org (unpointed)','Public domain'],
  ['Syriac, Old Testament','Leiden Peshitta Institute text, electronic edition by the ETCBC, VU Amsterdam','CC BY-NC 4.0, non-commercial use only'],
  ['Syriac, New Testament','Peshitta, British and Foreign Bible Society 1905, CrossWire module (courtesy of John Richards)','Public domain'],
+ ['Syriac scripts','The Syriac text is stored once and shown in three scripts with the Noto Sans Syriac (Estrangela), Noto Sans Syriac Western (Serto) and Noto Sans Syriac Eastern (Madnḥaya) fonts, by the Noto Project Authors','SIL Open Font License 1.1'],
  ['Greek, Ecclesiastes','Lancelot Brenton’s Greek Septuagint (1851), via eBible.org (the Swete edition used for the rest of the Old Testament is missing this book in our source)','Public domain'],
  ['English, Septuagint extras','Brenton’s English Septuagint (1851), updated spelling (Adam Boyd): 1 Esdras, 3 Maccabees, 4 Maccabees, Prayer of Manasseh. Verse numbers follow Brenton and can differ by one or two from the Greek','Public domain'],
  ['English, Bible','Catholic Public Domain Version (CPDV), Ronald L. Conte Jr., 2009, translated from the Latin Vulgate (master text: sacredbible.org/catholic)','Public domain'],
@@ -299,6 +313,9 @@ function showAbout(){S.view='other';
  $('#page').innerHTML='<h1>About &amp; sources</h1><div class="sub">Every text on this site, who produced it, and its license.</div><div class="txt" style="font-size:calc(var(--rs)*1.05);line-height:1.6">'+R.map(r=>`<p><b>${r[0]}.</b> ${r[1]}. <i>${r[2]}</i></p>`).join('')+'<p>Licenses: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Texts were reformatted for this site (chapters and verses, editorial marks removed). Highlights are stored only in your own browser.</p></div>';
  $('#main').scrollTop=0;
 }
+/* ---- Syriac script ---- */
+function setScript(x){document.documentElement.dataset.syr=x;try{localStorage.setItem('syrscript',x)}catch(e){}document.querySelectorAll('#scr button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===x))}
+setScript(document.documentElement.dataset.syr||'estrangela');
 /* ---- theme ---- */
 function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}$('#th').textContent=t==='dark'?'☀ Day':'☾ Night'}
 setTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
@@ -315,6 +332,7 @@ async function showHL(){S.view='other';
 const redraw=()=>S.view==='passages'?showPassages(lastRefs):render();
 document.addEventListener('click',async e=>{
  const t=e.target;
+ const sc=t.closest('#scr button');if(sc){setScript(sc.dataset.s);return}
  if(t.closest('#nav')){
   const hs=t.closest('h3[data-sec]');if(hs){closed.has(hs.dataset.sec)?closed.delete(hs.dataset.sec):closed.add(hs.dataset.sec);renderNav();return}
   const bb=t.closest('.b'),cc=t.closest('.chs button');
