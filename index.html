@@ -6,9 +6,17 @@
 <title>Biblia · Bible in Latin, Greek, Hebrew, Syriac &amp; English · Non-NT Canon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Cardo:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Hebrew:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Hebrew:wght@400;700&display=swap" rel="stylesheet">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.syr=localStorage.getItem('syrscript')||'estrangela'}catch(e){}</script>
 <style>
+@font-face{font-family:"Pagella";src:url(fonts/Pagella-regular.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Pagella";src:url(fonts/Pagella-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Pagella";src:url(fonts/Pagella-bold.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"CinzelDec";src:url(fonts/CinzelDecorative-400.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"CinzelDec";src:url(fonts/CinzelDecorative-700.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"CinzelDec";src:url(fonts/CinzelDecorative-ext-400.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"CinzelDec";src:url(fonts/CinzelDecorative-ext-700.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{--fhead:"CinzelDec","Cinzel Decorative",Cinzel,"Palatino Linotype",serif;--ftext:"Pagella","Book Antiqua",Palatino,"Palatino Linotype","URW Palladio L",serif}
 @font-face{font-family:"SyrEstrangela";src:url(fonts/SyrEstrangela.woff2) format("woff2");font-display:swap}
 @font-face{font-family:"SyrSerto";src:url(fonts/SyrSerto.woff2) format("woff2");font-display:swap}
 @font-face{font-family:"SyrMadnhaya";src:url(fonts/SyrMadnhaya.woff2) format("woff2");font-display:swap}
@@ -21,10 +29,10 @@
 --h1:#6f5b00;--h2:#1f5c3c;--h3:#7b2b36;--h4:#39448f;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{background:var(--body);color:var(--ink);font:16px/1.5 "Alegreya Sans",system-ui,sans-serif;display:grid;grid-template-rows:auto 1fr}
+body{background:var(--body);color:var(--ink);font:16px/1.5 var(--ftext);display:grid;grid-template-rows:auto 1fr}
 button,input{font:inherit;color:inherit}
 header{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem;padding:.55rem 1rem;background:var(--hd);color:var(--yl);border-bottom:3px solid var(--yl)}
-.brand{font:700 1.4rem Cardo,serif;letter-spacing:.04em;color:var(--yl);margin-right:.3rem}
+.brand{font:700 1.5rem var(--fhead);letter-spacing:.06em;color:var(--yl);margin-right:.3rem}
 .tabs{display:flex;gap:2px;background:var(--hd2);padding:3px;border-radius:8px}
 .tabs button{border:0;background:none;color:var(--yl);padding:.28rem .75rem;border-radius:6px;cursor:pointer;font-weight:500}
 .tabs button[aria-pressed=true]{background:var(--yl);color:var(--hd);font-weight:700}
@@ -37,7 +45,7 @@ header{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem;padding:.5
 #menu{display:none}
 .wrap{display:grid;grid-template-columns:250px 1fr;min-height:0}
 nav{overflow:auto;background:var(--hd);color:var(--yl);padding:.6rem .5rem 2rem;border-right:2px solid var(--yl)}
-nav h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;margin:1rem .5rem .3rem;cursor:pointer;user-select:none;opacity:.9}
+nav h3{font:700 .78rem var(--fhead);text-transform:uppercase;letter-spacing:.08em;margin:1rem .5rem .3rem;cursor:pointer;user-select:none;opacity:.9}
 nav .b{display:block;width:100%;text-align:left;border:0;background:none;color:var(--yl);padding:.22rem .5rem;border-radius:6px;cursor:pointer}
 nav .b:hover{background:rgba(255,214,10,.18)}
 nav .b.on{background:var(--yl);color:var(--hd);font-weight:700}
@@ -48,19 +56,22 @@ nav .b.off{opacity:.45}
 .chs button.on{background:var(--yl);color:var(--hd);border-color:var(--yl);font-weight:700}
 main{overflow:auto;background:var(--body);padding:1rem 1.4rem 6rem;scroll-behavior:smooth}
 .page{max-width:46rem;margin:0 auto}
-h1{font:700 1.8rem Cardo,serif;margin:.3rem 0 .1rem;color:var(--accent)}
+h1{font:700 1.55rem/1.25 var(--fhead);letter-spacing:.03em;margin:.3rem 0 .15rem;color:var(--accent)}
 .sub{color:var(--mute);margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:3px double var(--line)}
-.ctitle{font:italic 1.05rem Cardo,serif;color:var(--mute);margin:-.3rem 0 .8rem}
-.txt{font-family:Cardo,"Noto Serif",serif;font-size:calc(var(--rs)*1.35);line-height:1.7}
+.ctitle{font:400 .95rem/1.4 var(--fhead);letter-spacing:.04em;color:var(--mute);margin:-.3rem 0 .8rem}
+.txt{font-family:var(--ftext);font-size:calc(var(--rs)*1.3);line-height:1.7}
+.txt[lang=grc],.res[lang=grc]{font-family:Cardo,"Noto Serif",serif}
+.res[lang=he]{font-family:"Noto Serif Hebrew","SBL Hebrew","Ezra SIL","Times New Roman",serif}
+.res[lang=syr]{font-family:var(--syr),"Estrangela Edessa","Serto Jerusalem",serif}
 .txt[lang=syr]{font-family:var(--syr),"Estrangela Edessa","Serto Jerusalem",Cardo,serif;font-size:calc(var(--rs)*var(--syrsize));line-height:2}
 #scr[hidden]{display:none}
 .txt[lang=he]{font-family:"Noto Serif Hebrew","SBL Hebrew","Ezra SIL","Times New Roman",serif;font-size:calc(var(--rs)*1.45);line-height:2.1}
 .v{display:flex;gap:.7rem;padding:.15rem .4rem;border-radius:6px;cursor:pointer}
 .v:hover{background:color-mix(in srgb,var(--accent) 9%,transparent)}
 .v>span:last-child{white-space:pre-line}
-.v .n{flex:none;width:1.8rem;text-align:right;font:500 .72em "Alegreya Sans",sans-serif;color:var(--accent);padding-top:.5em}
+.v .n{flex:none;width:1.8rem;text-align:right;font:400 .8em var(--ftext);color:var(--accent);padding-top:.5em}
 .txt[dir=rtl] .v .n{text-align:center}.txt[dir=rtl] .res b{margin:0 0 0 .5rem}
-.pg{margin-bottom:.9rem}.ph{font:700 1.2rem Cardo,serif;color:var(--accent);margin:1.4rem 0 .3rem;display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}.ph a{font:500 .8rem "Alegreya Sans",sans-serif}.v .n.l{width:3.2rem}
+.pg{margin-bottom:.9rem}.ph{font:700 1.05rem/1.3 var(--fhead);letter-spacing:.03em;color:var(--accent);margin:1.4rem 0 .3rem;display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}.ph a{font:400 .8rem var(--ftext)}.v .n.l{width:3.2rem}
 .v.sel{outline:2px solid var(--accent)}
 .v[data-h="1"]{background:var(--h1)}.v[data-h="2"]{background:var(--h2)}.v[data-h="3"]{background:var(--h3)}.v[data-h="4"]{background:var(--h4)}
 .v.flash{animation:fl 1.6s}
@@ -303,6 +314,7 @@ function showAbout(){S.view='other';
  ['Hebrew, New Testament','Franz Delitzsch’s Hebrew translation (1877–1889) from the Greek, via eBible.org (unpointed)','Public domain'],
  ['Syriac, Old Testament','Leiden Peshitta Institute text, electronic edition by the ETCBC, VU Amsterdam','CC BY-NC 4.0, non-commercial use only'],
  ['Syriac, New Testament','Peshitta, British and Foreign Bible Society 1905, CrossWire module (courtesy of John Richards)','Public domain'],
+ ['Fonts for text in the Latin alphabet','Headings: Cinzel Decorative, by Natanael Gama (SIL Open Font License 1.1). Body text and menus: TeX Gyre Pagella, by the GUST e-Foundry (GUST Font License). Free look-alikes of the Algerian and Book Antiqua styles','Open font licenses'],
  ['Syriac scripts','The Syriac text is stored once and shown in three scripts with the Noto Sans Syriac (Estrangela), Noto Sans Syriac Western (Serto) and Noto Sans Syriac Eastern (Madnḥaya) fonts, by the Noto Project Authors','SIL Open Font License 1.1'],
  ['Greek, Ecclesiastes','Lancelot Brenton’s Greek Septuagint (1851), via eBible.org (the Swete edition used for the rest of the Old Testament is missing this book in our source)','Public domain'],
  ['English, Septuagint extras','Brenton’s English Septuagint (1851), updated spelling (Adam Boyd): 1 Esdras, 3 Maccabees, 4 Maccabees, Prayer of Manasseh. Verse numbers follow Brenton and can differ by one or two from the Greek','Public domain'],
@@ -326,7 +338,7 @@ async function showHL(){S.view='other';
  let h=`<h1>My highlights</h1><div class="sub">${ks.length} saved in this browser</div><div class="txt">`;
  if(!ks.length)h+='<p class="note">Click a verse to select it, then pick a colour.</p>';
  for(const k of ks){const [l,b,c,v]=k.split('|'),t=(data[l]&&data[l][b]&&data[l][b][c-1]&&data[l][b][c-1][v-1])||'';
-  h+=`<div class="res v" data-h="${HL[k]}" data-l="${l}" data-b="${b}" data-c="${c}" data-v="${v}"><b>${bk(b).name} ${c}:${v} (${l})</b>${esc(t)}</div>`}
+  h+=`<div class="res v" lang="${{la:'la',grc:'grc',heb:'he',syr:'syr',en:'en'}[l]}" data-h="${HL[k]}" data-l="${l}" data-b="${b}" data-c="${c}" data-v="${v}"><b>${bk(b).name} ${c}:${v} (${l})</b>${esc(t)}</div>`}
  $('#page').innerHTML=h+'</div>'+(ks.length?'<p><button class="btn" id="clr" style="border-color:var(--accent);color:var(--accent)">Clear all highlights</button></p>':'');
 }
 const redraw=()=>S.view==='passages'?showPassages(lastRefs):render();

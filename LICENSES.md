@@ -26,6 +26,10 @@ As derivatives, **`data/grc.json` is released under CC BY-SA 4.0** (it also cont
 
 **Apocalypse of Peter** (`data/grc.json` and `data/en.json`, book id `apocalypse-of-peter`, and `data/titles.json`): the Greek reconstruction and the English translation are original work of the site owner, included as supplied. The owner decides the license of this work (it is the owner's own text and is not covered by the CC BY-SA statements above, although it sits in the same data files). Replace this paragraph with your chosen license or copyright notice.
 
+**Heading font** (`fonts/CinzelDecorative-*.woff2`): Cinzel Decorative by Natanael Gama, SIL Open Font License 1.1 (`fonts/OFL-CinzelDecorative.txt`), Latin and Latin-extended subsets as distributed by Fontsource.
+
+**Body font** (`fonts/Pagella-*.woff2`): TeX Gyre Pagella by the GUST e-Foundry (Bogusław Jackowski, Janusz M. Nowacki), a Palatino-style typeface, GUST Font License (`fonts/GUST-FONT-LICENSE.txt`). The files are the original fonts converted to WOFF2 compression only, with no change to the design or the name.
+
 **Syriac fonts** (`fonts/`): Noto Sans Syriac, Noto Sans Syriac Western and Noto Sans Syriac Eastern, Copyright 2022 The Noto Project Authors (github.com/notofonts/syriac), SIL Open Font License 1.1 (`fonts/OFL.txt`). Converted to WOFF2 without other changes.
 
 The website code (`index.html`) is free for you to use and modify.

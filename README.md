@@ -46,6 +46,12 @@ Conventions: *theos* God, *kyrios* Lord, *ekklesia* church, *episkopos* bishop, 
 **Polycarp, Philippians:** chapters 10-12, the end of 13.2 and chapter 14 survive only in Latin. The Greek tab shows the Latin (labelled) and the English is translated from it.
 **Not scholar-reviewed:** treat it as a reading aid and check important passages against a published translation (e.g. Lake's Loeb volumes, Lightfoot).
 
+## Fonts
+- **Headings and titles** (the "Biblia" name, book and chapter headings, section labels, chapter titles): **Cinzel Decorative**, an open-licensed look-alike of Algerian.
+- **Body text and menus** for everything in the Latin alphabet (the Latin and English texts, buttons, search box, About page): **TeX Gyre Pagella**, an open-licensed look-alike of Book Antiqua (both are Palatino-style faces).
+- Greek keeps Cardo, Hebrew keeps Noto Serif Hebrew and Syriac keeps the Noto Syriac fonts, because the Latin-alphabet fonts have no letters for those scripts.
+- Algerian and Book Antiqua themselves are commercial fonts that cannot be bundled with a website, so the site uses the look-alikes. Everyone then sees the same fonts on every device. If you ever buy web licenses for them, change the two font variables `--fhead` and `--ftext` at the top of the stylesheet in `index.html` and add the files to `fonts/`.
+
 ## Syriac scripts
 Estrangela, Serto and Madnḥaya are three styles of the same Unicode Syriac letters, so the site stores the text once and switches the font (`fonts/SyrEstrangela.woff2`, `SyrSerto.woff2`, `SyrMadnhaya.woff2`, the Noto Sans Syriac family, SIL Open Font License; `fonts/OFL.txt`). Because the text is consonantal (with plural dots), no vowel-point conversion between the Western and Eastern systems is needed. If a future Syriac source carries vowel points, the Western and Eastern vowel systems are not interchangeable and would need separate handling.
 
